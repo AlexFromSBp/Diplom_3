@@ -1,0 +1,53 @@
+import allure
+from data.urls import Urls
+from pages.constructor_page import ConstructorPage
+
+
+class TestConstructor:
+
+    @allure.title("Успешное открытие страницы 'Конструктор' тапом по странице")
+    def test_click_on_constructor(self, driver):
+        test = ConstructorPage(driver)
+        test.click_auth_button()
+        test.click_constructor_button()
+        assert driver.current_url == Urls.MAIN_PAGE
+
+    @allure.title("Успешное открытие страницы  'Лента заказов' тапом по странице")
+    def test_click_order_list(self, driver):
+        test = ConstructorPage(driver)
+        test.click_auth_button()
+        test.click_switch_order_feed()
+        assert test.current_url() == Urls.ORDER_FEED
+
+    @allure.title("Проверка появления всплывающего окна с деталями при тапе на заказ")
+    def test_get_order_popup(self, driver):
+        test = ConstructorPage(driver)
+        test.click_ingredient_fluorescent_bun()
+        element = test.get_ingredient_window()
+        assert element.is_displayed()
+
+    @allure.title("Всплывающее окно закрывается нажатием крестика")
+    def test_close_popup_window_click_cross(self, driver):
+        test = ConstructorPage(driver)
+        test.click_ingredient_fluorescent_bun()
+        element = test.get_ingredient_window()
+        test.click_close_ingredient_window()
+        assert not element.is_displayed()
+
+    @allure.title("При использовании ингредиента, увеличивается его счетчик")
+    def test_counter_ingredient_increases(self, driver):
+        test = ConstructorPage(driver)
+        initial_count = test.get_ingredient_counter()
+        test.drag_and_drop_ingredient_fluorescent_bun_to_order()
+        new_count = test.get_ingredient_counter()
+        assert new_count == initial_count + 2
+
+    @allure.title("Успешное оформление заказа авторизованным пользователем")
+    def test_logged_user_can_place_order(self, driver):
+        test = ConstructorPage(driver)
+        test.click_auth_button()
+        test.login(email="test_practicum@ya.ru", password="qwerty")
+        test.drag_and_drop_ingredient_fluorescent_bun_to_order()
+        test.click_on_checkout_button()
+        element = test.order_is_being_prepared()
+        assert element.is_displayed()
