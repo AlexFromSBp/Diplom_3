@@ -1,9 +1,6 @@
 import allure
 from data.urls import Urls
 from pages.constructor_page import ConstructorPage
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 
 
 class TestConstructor:
@@ -12,14 +9,8 @@ class TestConstructor:
     def test_click_on_constructor(self, driver):
         test = ConstructorPage(driver)
         test.click_auth_button()
-        WebDriverWait(driver, 10).until(EC.url_contains("login"))
-        constructor_button = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Конструктор')]"))
-        )
-        constructor_button.click()
-        WebDriverWait(driver, 10).until(EC.url_to_be(Urls.MAIN_PAGE))
-        assert driver.current_url == Urls.MAIN_PAGE, \
-            f"Ожидался URL {Urls.MAIN_PAGE}, получен {driver.current_url}"
+        test.click_constructor_button()
+        assert driver.current_url == Urls.MAIN_PAGE
 
     @allure.title("Успешное открытие страницы  'Лента заказов' тапом по странице")
     def test_click_order_list(self, driver):

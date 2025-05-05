@@ -1,19 +1,13 @@
 import allure
 from locators import MainPageLocators
 from pages.base_page import BasePage
-from data.user_data import email, password
-
+from selenium.webdriver.support import expected_conditions as EC
 
 class ConstructorPage(BasePage):
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
-
     @allure.step("Клик по кнопке 'Войти в аккаунт'")
     def click_auth_button(self):
-        auth_button = self.wait.until(
-            EC.element_to_be_clickable(MainPageLocators.BUTTON_AUTH_ACCOUNT),
+        auth_button = self.wait.until(EC.element_to_be_clickable(MainPageLocators.BUTTON_AUTH_ACCOUNT),
             "Кнопка авторизации не стала кликабельной за 10 секунд"
         )
         auth_button.click()
@@ -69,7 +63,7 @@ class ConstructorPage(BasePage):
         self.click_element(MainPageLocators.CHECKOUT_BUTTON)
 
     @allure.step("Авторизация")
-    def login(self):
+    def login(self, email: str, password: str):
         self.click_element(MainPageLocators.BUTTON_AUTH_ACCOUNT)
         self.send_keys_to_input(MainPageLocators.MAIL_INPUT, email)
         self.send_keys_to_input(MainPageLocators.PASSWORD_INPUT, password)

@@ -25,12 +25,13 @@ class TestRecoveryPassword:
 
     @allure.title("Клик по кнопке Показать/скрыть пароль активирует поле")
     def test_click_button_invisibility_button(self, driver):
-        test = PasswordPage(driver)
-        test.lk_click()
-        test.recovery_password_click()
-        test.email_input()
-        test.click_recovery_button()
-        test.wait_save_button()
-        test.set_new_password()
-        test.click_visibility_icon()
-        assert test.check_visibility is not None
+        password_page = PasswordPage(driver)
+        password_page.lk_click()
+        password_page.recovery_password_click()
+        password_page.email_input()
+        password_page.click_recovery_button()
+        password_page.wait_save_button()
+        password_page.set_new_password()
+        password_page.click_visibility_icon()
+
+        assert password_page.check_visibility()

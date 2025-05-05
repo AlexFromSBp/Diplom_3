@@ -2,7 +2,7 @@ import allure
 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import ElementClickInterceptedException
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -10,6 +10,13 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 20)
+
+    def click_element(self, locator):
+        element = self.wait.until(
+            EC.element_to_be_clickable(locator),
+            f"Элемент {locator} не стал кликабельным за 20 секунд"
+        )
+        element.click()
 
     @allure.step("Получить текущий URL")
     def current_url(self):
@@ -69,3 +76,7 @@ class BasePage:
         self.wait.until(EC.presence_of_element_located(locator))
         self.wait.until(lambda driver: self.read_text(locator).isdigit() and self.read_text(locator) != "9999")
         return self.read_text(locator)
+
+    @allure.step("Возвращает текст элемента после проверки его видимости.")
+    def get_element_text(self, locator) -> str:
+        return self.wait.until(EC.visibility_of_element_located(locator)).text

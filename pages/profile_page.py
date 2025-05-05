@@ -9,9 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class ProfilePage(BasePage):
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
 
     @allure.title("Проверяем переход на страницу профиля")
     def click_lk(self):

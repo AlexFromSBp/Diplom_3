@@ -28,7 +28,7 @@ class ResetPageLocators:
     INPUT_NEW_PASSWORD = [By.XPATH, '//input[@name="Введите новый пароль"]']
 
 class OrderPageLocators:
-    LAST_ORDER = (By.XPATH, ".//ul[@class='OrderFeed_list__OLh59']/li[1]")
+    LAST_ORDER = [By.XPATH, '//*[contains(@class, "OrderHistory_link")]']
     ORDER_FEED_BUTTON = [By.XPATH, '//a[@href="/feed"]']
     STRUCTURE = [By.XPATH, "//p[@class='text text_type_main-medium mb-8']"]
     ORDER_NUMBER = [By.XPATH, '//p[text()="идентификатор заказа"]/preceding-sibling::h2']

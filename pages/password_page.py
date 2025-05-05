@@ -31,8 +31,9 @@ class PasswordPage(BasePage):
         self.send_keys_to_input(ResetPageLocators.INPUT_NEW_PASSWORD, password)
 
     @allure.step("Тап на кнопку Показать/скрыть пароль")
-    def click_visibility_icon(self):
+    def click_visibility_icon(self) -> bool:
         self.click_element(ResetPageLocators.BUTTON_VISIBILITY_PASSWORD)
+        return "visibility_off" in self.get_element_text(ResetPageLocators.BUTTON_VISIBILITY_PASSWORD)
 
     @allure.step("Проверка активности скрытия элемента")
     def check_visibility(self):
